@@ -1,21 +1,24 @@
-// program on read and print marks using dynamic array
+// Read and print marks using malloc() function
 
 #include<stdio.h>
+#include<stdlib.h>
 void main()
 {
-		int* marks;
+		
 		int numberOfSubjects;
-		int loop;
-		printf("enter number of subjects: ");
+		int counter;
+		int* marks;
+		printf("Enter number of subjects: ");
 		scanf("%d",&numberOfSubjects);
-		marks = (int*)malloc(numberOfSubjects * sizeof(int));
-		 for ( loop = 1 ; loop <= numberOfSubjects ; loop++)
+		 marks = (int*)malloc(numberOfSubjects * sizeof(int));
+		 for ( counter = 1 ; counter <= numberOfSubjects ; counter++)
 		 {
-		 	printf("give %d subject marks: ",loop);
-		 	scanf("%d",&marks[loop]);
+		 	printf("Enter subject-%d of %d marks: ", counter,numberOfSubjects);
+		 	scanf("%d",&marks[counter]);
 		 }
-		 for ( loop = 1 ; loop <= numberOfSubjects; loop++)
+		 printf("\nThe total %d subjects are:\n", numberOfSubjects);
+		 for ( counter = 1 ; counter <= numberOfSubjects; counter++)
 		 {
-		 	printf("%d subject marks : %d\n",loop, marks[loop]);
+		 	printf("Subject-%d marks is: %d\n",counter, marks[counter]);
 		 }
 }

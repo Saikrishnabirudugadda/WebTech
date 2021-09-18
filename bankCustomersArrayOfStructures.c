@@ -12,31 +12,31 @@ struct bankCustomers
 
 void main()
 {		
-		int numberOfCustomers, loop;
+		int numberOfCustomers, counter;
 		printf("Enter number of customers:");
-		scanf("%d",&numberOfCustomers);
+		scanf("%d", &numberOfCustomers);
 
 		struct bankCustomers customer[numberOfCustomers];
 
-		for ( loop = 1 ; loop <= numberOfCustomers; loop++)
+		for ( counter = 1 ; counter <= numberOfCustomers; counter++)
 		{
-			printf("Enter Customer%d name: \n", loop);
-			scanf("%s", customer[loop].customerName);
-			printf("Enter Customer%d Account number: \n ",loop);
-			scanf("%lld",&customer[loop].customerAccountNumber);
-			printf("Enter Customer%d Mobile number: \n",loop);
-			scanf("%lld",&customer[loop].customerMobileNumber);
-			printf("Enter Customer%d Address: \n ",loop);
-			scanf("%s", customer[loop].customerAddress);
+			printf("Enter Customer%d name: \n", counter);
+			scanf("%s", customer[counter].customerName);
+			printf("Enter Customer%d Account number: \n ", counter);
+			scanf("%lld", &customer[counter].customerAccountNumber);
+			printf("Enter Customer%d Mobile number: \n", counter);
+			scanf("%lld", &customer[counter].customerMobileNumber);
+			printf("Enter Customer%d Address: \n", counter);
+			scanf("%s", customer[counter].customerAddress);
 
 		}
-		for ( loop = 1 ; loop <= numberOfCustomers; loop++)
+		for ( counter = 1 ; counter <= numberOfCustomers; counter++ )
 		{
-			printf("Customer%d Details are: \n",loop);
-			printf("Name: %s\n",customer[loop].customerName);
-			printf("Account Number: %lld \n", customer[loop].customerAccountNumber);
-			printf("MobileNumber: %lld \n",customer[loop].customerMobileNumber);
-			printf("Address: %s\n",customer[loop].customerAddress);
+			printf("%s details are: \n", customer[counter].customerName);
+			printf("Name: %s\n", customer[counter].customerName);
+			printf("Account Number: %lld \n", customer[counter].customerAccountNumber);
+			printf("MobileNumber: %lld \n", customer[counter].customerMobileNumber);
+			printf("Address: %s\n", customer[counter].customerAddress);
 
 		}
 

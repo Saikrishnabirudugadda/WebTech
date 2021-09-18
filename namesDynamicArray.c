@@ -1,21 +1,23 @@
-// program on read and print names using dynamic array
+// Read and print names using dynamic array
 
 #include<stdio.h>
+#include<stdlib.h>
 void main()
 {
 		
 		int numberOfNames;
-		int loop;
+		int counter;
 		printf("Enter number of names: ");
 		scanf("%d",&numberOfNames);
 		char *names = (char*)malloc(numberOfNames * sizeof(char));
-		 for ( loop = 1; loop <= numberOfNames; loop++ )
+		 for ( counter = 1; counter <= numberOfNames; counter++ )
 		 {
-		 	printf("Give %d name: ",loop);
-		 	scanf("%s", names[loop]);
+		 	printf("Enter person%d name of %d: ", counter, numberOfNames);
+		 	scanf("%s",&names[counter]);
 		 }
-		 for ( loop = 1; loop <= numberOfNames; loop++ )
+		 printf("\n\n");
+		 for ( counter = 1; counter <= numberOfNames; counter++ )
 		 {
-		 	printf("%d name is : %s  \n",loop, names[loop]);
+		 	printf("Person%d name is: %s\n", counter, names[counter]);
 		 }
 }
