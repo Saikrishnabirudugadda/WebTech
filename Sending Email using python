@@ -1,0 +1,38 @@
+ # sending mail using python 
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+
+senderEMailAddress = "1437bsk@gmail.com"
+recieverEMailAddress = "1432bsk@gmail.com"
+fileName = "C:\\Users\\SAI KRISHNA\\Desktop\\dailyUpdate.txt"
+attachmentName = "tecnics.png"
+attachmentPath = "C:\\Users\\SAI KRISHNA\\Desktop\\tecnics.png"
+
+fData = open(fileName, "r")
+subject = fData.readline()
+fileData = fData.read()
+
+message = MIMEMultipart()
+message["From"] = senderEMailAddress
+message["To"] = recieverEMailAddress
+message["Subject"] = subject
+bodyContent = fileData
+message.attach(MIMEText(bodyContent, 'plain'))
+
+filename = attachmentName 
+attachment = open(attachmentPath, "rb")
+p = MIMEBase('application', 'octet-stream')
+p.set_payload((attachment).read())
+encoders.encode_base64(p)
+p.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+message.attach(p)
+
+smtpSession = smtplib.SMTP('smtp.gmail.com', 587)
+smtpSession.starttls()
+smtpSession.login(senderEMailAddress, "senderEMailAddress password")
+text = message.as_string()
+smtpSession.sendmail(senderEMailAddress, recieverEMailAddress, text)
+smtpSession.quit()
