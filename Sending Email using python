@@ -5,8 +5,8 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
-senderEMailAddress = "1437bsk@gmail.com"
-recieverEMailAddress = "1432bsk@gmail.com"
+senderEMailAddress = "Sender's e-mail address"
+recieverEMailAddress = "Reciever's e-mail address"
 fileName = "C:\\Users\\SAI KRISHNA\\Desktop\\dailyUpdate.txt"
 attachmentName = "tecnics.png"
 attachmentPath = "C:\\Users\\SAI KRISHNA\\Desktop\\tecnics.png"
