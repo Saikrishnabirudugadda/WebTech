@@ -1,7 +1,0 @@
-# Taking city name as input and displaying temperature of that city 
-
-import requests
-cityName = input("Enter city name: ")
-URL = 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=19aae0947e590ddacd2c8850be043aba&units=metric'
-data = requests.get(URL).json()
-print("The temperature at ", cityName, " is: ", data['main']['temp'], u'\N{DEGREE SIGN}', 'C', sep = '')
