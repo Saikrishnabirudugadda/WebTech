@@ -1,0 +1,196 @@
+// Framework using character array and updatable field in update function.
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+#define FIELD_NAME_LENGTH 100
+#define FIELD_VALUE_LENGTH 20
+#define FIELDS_COUNT 100
+#define MENU_COUNT 5
+#define UPDATABLE_FIELDS_COUNT 100
+#define FILE_NAME "framework30.dat"
+#define MENU_FILE "menu.cfg"
+#define FIELDS_FILE "fields.cfg"
+#define UPDATABLE_FIELDS_FILE "updatableFields.cfg"
+
+void creationNewEntry();
+void displayAllEntries();
+void updateEntry();
+void deleteEntry();
+char fieldNames[FIELDS_COUNT][FIELD_NAME_LENGTH];
+int fieldNameCount;
+char updatableFields[UPDATABLE_FIELDS_COUNT][FIELD_NAME_LENGTH];
+int updatableFieldsCount;
+int iterator;
+
+void main()
+{
+	system("cls");
+	int option;
+	FILE *fpFields;
+	FILE *fpMenu;
+	FILE *FpUpdatableFields;
+	fpFields = fopen(FIELDS_FILE, "r");
+	iterator = 0;
+	while(fgets(fieldNames[iterator], FIELDS_COUNT, fpFields))
+	{
+		fieldNames[iterator][strlen(fieldNames[iterator]) - 1] = '\0';
+		iterator++;
+
+	}
+	fieldNameCount = iterator;
+	FpUpdatableFields = fopen(UPDATABLE_FIELDS_FILE, "r");
+	iterator = 0;
+	while(fgets(updatableFields[iterator], UPDATABLE_FIELDS_COUNT, FpUpdatableFields))
+	{
+	 	updatableFields[iterator][strlen(updatableFields[iterator]) - 1 ] = '\0';
+	 	iterator++;
+	}
+	updatableFieldsCount = iterator;
+	do
+	{
+		fpMenu = fopen(MENU_FILE, "r");
+		char menu[FIELD_NAME_LENGTH];
+		while(fgets(menu, FIELD_NAME_LENGTH, fpMenu))
+		{
+			printf("%s \n", menu);
+		}
+		printf("\nEnter your option: ");
+		scanf("%d",&option);
+		switch(option)
+		{
+			case 1: creationNewEntry();
+			break;
+			case 2: displayAllEntries();
+			break;
+			case 3: updateEntry();
+			break;
+			case 4: deleteEntry();
+			break;
+			case 5: exit(0);
+			break;
+			default: printf("\n Invaid option.");
+			break; 
+		}
+	}while(option != MENU_COUNT);
+
+} 
+
+void creationNewEntry()
+{
+	FILE *fpData;
+	char fieldValue[FIELD_VALUE_LENGTH];
+	fpData =fopen(FILE_NAME, "a");
+	if(fpData == NULL)
+	{
+		printf("\nFile creation failed.");
+		return;
+	}
+	else
+	{
+		iterator = 0;
+		while(iterator < fieldNameCount)
+		{
+			printf("\nEnter %s: ", fieldNames[iterator]);
+			scanf("%s", fieldValue);
+			fwrite(fieldValue, sizeof(fieldValue), 1, fpData);
+			iterator++;
+
+		}
+	}
+	fclose(fpData);
+
+}
+
+void displayAllEntries()
+{
+	 char fieldValue[FIELD_VALUE_LENGTH];
+	FILE *fpData;
+	fpData = fopen(FILE_NAME, "r");
+	iterator = 0;
+	if(fpData == NULL)
+	{
+		printf("\nFile is empty.");
+		return;
+	}
+	while(fread(fieldValue, sizeof(fieldValue), 1, fpData))
+	{
+		printf("\n%s : %s ", fieldNames[iterator], fieldValue);
+		iterator++;
+		if(iterator == fieldNameCount)
+		{
+			iterator = 0;
+			printf("\n------------------------\n");
+		}
+	}
+	return;
+	fclose(fpData);
+}
+void updateEntry()
+{
+	int option;
+	FILE *fpData;
+	char  fieldValue[FIELD_VALUE_LENGTH], checkValue[FIELD_VALUE_LENGTH], tempFieldValue[FIELD_VALUE_LENGTH];
+	printf("\nPlease enter %s: ", fieldNames[0]);
+	scanf("%s", checkValue);
+	iterator = 0;
+	printf("%s", checkValue);
+	while(iterator < updatableFieldsCount)
+	{
+		printf("\n%d.%s", iterator + 1, updatableFields[iterator]);
+		iterator++;
+	}
+	printf("\n Enter your choice: ");
+	scanf("%d", &option);
+	iterator = 0;
+	fpData = fopen(FILE_NAME, "r+");
+	if(fpData == NULL)
+	{
+		printf("\nFile is empty. ");
+		return;
+	}
+	else
+	{
+		while(fread(fieldValue, sizeof(fieldValue), 1, fpData))
+		{
+			if(strcmp(fieldValue, checkValue) == 0)
+			{
+				printf("\nPlease enter new %s to update: ", updatableFields[option - 1]);
+				scanf("%s", tempFieldValue);
+				fseek(fpData, sizeof(fieldValue)* + (option -1), SEEK_CUR);
+				fwrite(tempFieldValue, sizeof(tempFieldValue), 1, fpData);
+				printf("\nInformation is successfully updated.");
+				break;
+			}
+		}
+
+	}
+	fclose(fpData);
+}
+
+void deleteEntry()
+{
+	FILE *fpData;
+	char fieldValue[FIELD_VALUE_LENGTH], status, ID[FIELD_VALUE_LENGTH];
+	printf("\nPlease enter %s: ", fieldNames[0]);
+	scanf("%s", ID);
+	fpData = fopen(FILE_NAME, "r+");
+	if(fpData == NULL)
+	{
+		printf("\nFile is empty.");
+		return;
+	}
+	while(fread(fieldValue, sizeof(fieldValue), 1, fpData))
+	{
+		if(strcmp(ID, fieldValue) == 0)
+		{
+			status = 'D';
+			fseek(fpData, sizeof(fieldValue)* + (fieldNameCount - 2), SEEK_CUR);
+			fwrite(&status, sizeof(status), 1, fpData );
+			printf("\n%s is sucessfully deleted.", ID);
+			break;
+		}
+	}
+	fclose(fpData);
+}
