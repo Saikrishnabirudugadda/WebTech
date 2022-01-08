@@ -9,10 +9,11 @@ function App() {
   const [lectureArr, updateLectureArr] = useState([]);
   console.log(lectureArr);
   function addNewLecture (event){
-    updateLectureArr([...lectureArr, { id: createUUID(), lectureState: "EDITLECNAME", lectureName: "", articleStatus: false, article:{text:"", state: "edit"}}]);
+    updateLectureArr([...lectureArr, { id: createUUID(), lectureState: "EDITLECNAME", lectureName: "", articleStatus: false, article:{text:"", state: ""}}]);
   }
 
   const handleOnSave = (lectureObj) =>{
+    console.log(lectureObj);
     const updatedLectureArr = [...lectureArr];
     let lecObjIndex = updatedLectureArr.findIndex(obj => obj.id === lectureObj.id);
     updatedLectureArr[lecObjIndex] = lectureObj;
