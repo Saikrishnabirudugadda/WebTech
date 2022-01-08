@@ -1,26 +1,28 @@
-import React, {useState} from "react"; 
+import React, {useState, useEffect} from "react"; 
 function ArticleEditComp(props) {
         const [lectureObj, updateLectureObj] = useState(props.lecObj)
-        const displayList = () =>{
-                const lecture = {...lectureObj,...{articleStatus: true, article:{ text : props.lecObj.article.text, state: "LIST"}}}
-                updateLectureObj(lecture);
-                props.onDisplayList(lectureObj);
 
-        }
+         useEffect(()=>
+         {
+                 if(lectureObj.article.state === "DISPLAY")
+                 {
+                        props.onHandleArticleDisplayState(lectureObj);
+                 }
+         });
+
         const handleTextarea = (event) =>{
-                const lecture = {...lectureObj,...{articleStatus: true, article:{ text: event.target.value, state: "DISPLAY"}}}
+                const lecture = {...lectureObj,...{article:{text: event.target.value, state : "EDIT"}}}
                 updateLectureObj(lecture);
         }
         const handleSaveTextarea = () =>{
-                const lecture = {...lectureObj,...{articleStatus: true, article:{  text : props.lecObj.article.text, state: "DISPLAY"}}}
+                const lecture = {...lectureObj,...{article:{ text : lectureObj.article.text, state: "DISPLAY"}}};
                 updateLectureObj(lecture);
-                props.onSaveArticle(lectureObj);
         }
     return (
         
             <div className = "content">
-            <textarea id = {props.lecObj.id} rows = "5" cols = "50" onChange = {handleTextarea} >{lectureObj.article.text}</textarea>
-            <button onClick = {displayList}>Cancel</button>
+            <textarea id = {props.lecObj.id} rows = "5" cols = "50" onChange = {handleTextarea} value = {lectureObj.article.text} placeholder = "Enter text here." > </textarea>
+            <button onClick = {props.onHandleArticleListState}>Cancel</button>
             <button onClick = {handleSaveTextarea}>Save</button>
             </div>
     );
