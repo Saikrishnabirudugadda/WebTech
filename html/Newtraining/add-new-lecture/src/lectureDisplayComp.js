@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from "react"; 
 import ArticleListComp from "./articleListComp";
-import ArticleEditComp from "./articleEditComp";
-import ArticleDisplayComp from "./articleDisplayComp";
 function LectureDisplayComp(props) {
 
      const [lectureObj, updateLectureObj] = useState(props.lectureObj);
@@ -22,22 +20,18 @@ function LectureDisplayComp(props) {
     }   
 
 const setArticleToListState = () =>{
-    const lecture = {...lectureObj,...{articleStatus: true, article:{ text: lectureObj.article.text, state: "LIST"}}};
+    const lecture = {...lectureObj,...{articleStatus: true}};
     updateLectureObj(lecture);
     props.setLecEditState(lecture);
     }
 
-const  setArticleToEditState = () =>{
-  const lecture = {...lectureObj,...{articleStatus: true, article:{ text : lectureObj.article.text, state: "EDIT"}}};
-  updateLectureObj(lecture);
-  props.setLecEditState(lecture);
-  }
-const  setArticleToDisplayState = (lectureObject) =>{
-  updateLectureObj(lectureObject);
-  props.setLecEditState(lectureObject);
-  }
+  const  setArticleToEditOrDisplayState = (articleArr) =>{
+    const lecture = {...lectureObj,...{article: articleArr}};
+    updateLectureObj(lecture);
+    props.setLecEditState(lecture);
+    }
 
-  const removeAtricle = () =>{
+  const removeAtricleComp = () =>{
     const lecture = {...lectureObj,...{articleStatus: false}};
     updateLectureObj(lecture);
     
@@ -56,11 +50,8 @@ const  setArticleToDisplayState = (lectureObject) =>{
                         <span className="glyphicon glyphicon-remove"></span>Remove</button>
                     <button onClick = {setArticleToListState} >Add content</button>
                     {
-                        lectureObj.articleStatus ?
-                        lectureObj.article.state === 'LIST'?  <ArticleListComp key = {lectureObj.id + "articleList"} lecObj = {lectureObj} 
-                        onHandleRemoveLecture = {removeAtricle} onHandleArticleEditState = {setArticleToEditState} />:
-                        [lectureObj.article.state === 'EDIT' ?  <ArticleEditComp key = {lectureObj.id  + "articleEdit"} lecObj = {lectureObj} onHandleArticleListState = {setArticleToListState} onHandleArticleDisplayState = {setArticleToDisplayState}  />:
-                         <ArticleDisplayComp key = {lectureObj.id + "articleDisplay"} lecObj = {lectureObj} onHandleArticleListState = {setArticleToListState} onHandleArticleEditState = {setArticleToEditState}/>]: null
+                        lectureObj.articleStatus && <ArticleListComp key = {lectureObj.id + "articleList"} articleArr= {lectureObj.article} 
+                        onHandleRemoveArtcileComp = {removeAtricleComp} onHandleArticleEditOrDisplayState = {setArticleToEditOrDisplayState} />
                         
                     }
                     
