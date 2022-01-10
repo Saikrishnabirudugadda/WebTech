@@ -9,11 +9,10 @@ function App() {
   const [lectureArr, updateLectureArr] = useState([]);
   console.log(lectureArr);
   function addNewLecture (event){
-    updateLectureArr([...lectureArr, { id: createUUID(), lectureState: "EDITLECNAME", lectureName: "", articleStatus: false, article:{text:"", state: ""}}]);
+    updateLectureArr([...lectureArr, { id: createUUID(), lectureState: "EDITLECNAME", lectureName: "", articleStatus: false, article: []}]);
   }
 
   const handleOnSave = (lectureObj) =>{
-    console.log(lectureObj);
     const updatedLectureArr = [...lectureArr];
     let lecObjIndex = updatedLectureArr.findIndex(obj => obj.id === lectureObj.id);
     updatedLectureArr[lecObjIndex] = lectureObj;
@@ -41,7 +40,7 @@ function createUUID(){
           {lectureArr.map((lecObj, index) =>{
             return lecObj.lectureState === 'EDITLECNAME' ? 
             <LectureInputComp key = {lecObj.id} lectureObj = {lecObj} lecNum = {index + 1}  onSave = {handleOnSave} onRemoveLec = {handleOnRemoveLec} /> :
-            <LectureDisplayComp  key = {lecObj.id} lectureObj = {lecObj} lecNum = {index + 1}  onRemoveLec = {handleOnRemoveLec} setLecEditState = {handleOnSave} />;
+            <LectureDisplayComp  key = {lecObj.id} lectureObj = {lecObj} lecNum = {index + 1} onRemoveLec = {handleOnRemoveLec} setLecEditState = {handleOnSave} />;
 
             })
           }
