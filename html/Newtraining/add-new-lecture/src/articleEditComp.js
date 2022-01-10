@@ -1,28 +1,29 @@
-import React, {useState, useEffect} from "react"; 
+import React, {useState} from "react"; 
 function ArticleEditComp(props) {
-        const [lectureObj, updateLectureObj] = useState(props.lecObj)
-
-         useEffect(()=>
-         {
-                 if(lectureObj.article.state === "DISPLAY")
-                 {
-                        props.onHandleArticleDisplayState(lectureObj);
-                 }
-         });
+        const [objectArticle, updateArticleObj] = useState(props.articleObj)
 
         const handleTextarea = (event) =>{
-                const lecture = {...lectureObj,...{article:{text: event.target.value, state : "EDIT"}}}
-                updateLectureObj(lecture);
+                const articleObj = {...objectArticle,...{text: event.target.value}}
+                updateArticleObj( articleObj);
         }
         const handleSaveTextarea = () =>{
-                const lecture = {...lectureObj,...{article:{ text : lectureObj.article.text, state: "DISPLAY"}}};
-                updateLectureObj(lecture);
+                console.log(objectArticle);
+                const  articleObj = {...objectArticle,...{state: "DISPLAY"}};
+                updateArticleObj( articleObj);
+                console.log(articleObj);
+                props.onHandleArticleDisplayState(articleObj);
+        }
+        const handleCancelEdit = () =>{
+                const  articleObj = {...objectArticle,...{state: "DISPLAY"}};
+                updateArticleObj(articleObj);
+                props.onHandleArticleDisplayState(articleObj);
         }
     return (
         
-            <div className = "content">
-            <textarea id = {props.lecObj.id} rows = "5" cols = "50" onChange = {handleTextarea} value = {lectureObj.article.text} placeholder = "Enter text here." > </textarea>
-            <button onClick = {props.onHandleArticleListState}>Cancel</button>
+            <div>
+            <div><label>Article: {props.articleNum}</label></div>
+            <textarea id = {objectArticle.id} rows = "5" cols = "50" onChange = {handleTextarea} value = {objectArticle.text} placeholder = "Enter text here." > </textarea>
+            <button onClick = {handleCancelEdit}>Cancel</button>
             <button onClick = {handleSaveTextarea}>Save</button>
             </div>
     );
