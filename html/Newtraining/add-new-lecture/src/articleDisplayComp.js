@@ -1,12 +1,24 @@
-import React, {useState, useEffect} from "react"; 
+import React, {useState} from "react"; 
 function ArticleDisplayComp(props) {
+    const [objectArticle, updateArticleObj] = useState(props.articleObj)
+
+         const handleEditArticle = () =>{
+            const  articleObj = {...objectArticle,...{state: "EDIT"}};
+            updateArticleObj( articleObj);
+            props.onHandleArticleEditState(articleObj);
+    }
+        const removeArticle = () =>{
+            props.onHandleRemoveArticle(objectArticle);
+            
+    }
 
     return (
         
-            <div className = "content">
-                <p>Content: {props.lecObj.article.text}</p>
-                <button onClick = {props.onHandleArticleListState}>Cancel</button>
-                <button onClick = {props.onHandleArticleEditState}>Edit</button>
+            <div>
+                <label>Article: {props.articleNum}</label>
+                <p>Content: {objectArticle.text}</p>
+                <button onClick = {removeArticle}>Remove</button>
+                <button onClick = {handleEditArticle}>Edit</button>
             </div>
     );
   }
