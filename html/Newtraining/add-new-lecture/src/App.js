@@ -1,4 +1,4 @@
-import React, {useState} from "react"; 
+import React, {useState, useEffect} from "react"; 
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
 import LectureInputComp from './lectureInputComp.js';
@@ -7,12 +7,21 @@ import LectureDisplayComp from './lectureDisplayComp';
 
 function App() {
   const [lectureArr, updateLectureArr] = useState([]);
+  useEffect(() =>{
+
+    const getLectureData = () =>{
+      fetch('https://jsonblob.com/api/jsonBlob/929962219803000832').then( response => response.json()).then((data) => 
+      updateLectureArr(data))  
+  };
+  getLectureData();
+  }, [])
   console.log(lectureArr);
   function addNewLecture (event){
     updateLectureArr([...lectureArr, { id: createUUID(), lectureState: "EDITLECNAME", lectureName: "", articleStatus: false, article: []}]);
   }
 
   const handleOnSave = (lectureObj) =>{
+    console.log(lectureObj);
     const updatedLectureArr = [...lectureArr];
     let lecObjIndex = updatedLectureArr.findIndex(obj => obj.id === lectureObj.id);
     updatedLectureArr[lecObjIndex] = lectureObj;
